@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://localhost/vote/vote/wselder/server.php" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap-enc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" name="Kelas" targetNamespace="http://localhost/vote/vote/wselder/server.php">
+  <types>
+    <xsd:schema targetNamespace="http://localhost/vote/vote/wselder/server.php">
+      <xsd:import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+    </xsd:schema>
+  </types>
+  <portType name="KelasPort">
+    <operation name="cekKelas">
+      <documentation>Mengecek apakah siswa terdaftar dalam kelas</documentation>
+      <input message="tns:cekKelasIn"/>
+      <output message="tns:cekKelasOut"/>
+    </operation>
+  </portType>
+  <binding name="KelasBinding" type="tns:KelasPort">
+    <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="cekKelas">
+      <soap:operation soapAction="http://localhost/vote/vote/wselder/server.php#cekKelas"/>
+      <input>
+        <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://localhost/vote/vote/wselder/server.php"/>
+      </input>
+      <output>
+        <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://localhost/vote/vote/wselder/server.php"/>
+      </output>
+    </operation>
+  </binding>
+  <message name="cekKelasIn">
+    <part name="nisn" type="xsd:string"/>
+  </message>
+  <message name="cekKelasOut">
+    <part name="return" type="xsd:boolean"/>
+  </message>
+  <service name="KelasService">
+    <port name="KelasPort" binding="tns:KelasBinding">
+      <soap:address location="http://localhost/vote/vote/wselder/server.php"/>
+    </port>
+  </service>
+</definitions>

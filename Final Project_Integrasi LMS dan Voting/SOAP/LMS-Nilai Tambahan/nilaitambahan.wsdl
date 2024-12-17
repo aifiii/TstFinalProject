@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:tns="http://localhost/cobalms/nilaitambahan"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+             targetNamespace="http://localhost/cobalms/nilaitambahan">
+
+    <types>
+        <xsd:schema targetNamespace="http://localhost/cobalms/nilaitambahan">
+            <!-- Request and response message definitions -->
+            <xsd:element name="getNilaiTambahanRequest">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="voteMenang" type="xsd:boolean"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+            <xsd:element name="getNilaiTambahanResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <!-- Correcting the return element in response -->
+                        <xsd:element name="statusNilaiTambahan" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:schema>
+    </types>
+
+    <!-- Request and Response messages -->
+    <message name="getNilaiTambahanRequest">
+        <part name="parameters" element="tns:getNilaiTambahanRequest"/>
+    </message>
+
+    <message name="getNilaiTambahanResponse">
+        <part name="parameters" element="tns:getNilaiTambahanResponse"/>
+    </message>
+
+    <!-- Port Type definition -->
+    <portType name="NilaiTambahanPortType">
+        <operation name="getNilaiTambahan">
+            <input message="tns:getNilaiTambahanRequest"/>
+            <output message="tns:getNilaiTambahanResponse"/>
+        </operation>
+    </portType>
+
+    <!-- Binding definition (SOAP binding with RPC style) -->
+    <binding name="NilaiTambahanBinding" type="tns:NilaiTambahanPortType">
+        <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="getNilaiTambahan">
+            <soap:operation soapAction="http://localhost/cobalms/nilaitambahan#getNilaiTambahan"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+    </binding>
+
+    <!-- Service definition -->
+    <service name="NilaiTambahanService">
+        <port name="NilaiTambahanPort" binding="tns:NilaiTambahanBinding">
+            <soap:address location="http://localhost/cobalms/nilaitambahan.php"/>
+        </port>
+    </service>
+
+</definitions>

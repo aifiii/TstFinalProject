@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History Nilai Tambahan</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(() => {
+            // Mengambil Nilai Tambahan dan History berdasarkan NIM
+            $('#his').on('click', () => {
+                // Dapatkan NIM dari input
+                let nim = $('#nim').val();  
+
+                if (!nimSiswa) {
+                    $('#output').html('<p>NIM Siswa tidak ditemukan.</p>');
+                    return;
+                }
+
+                $.ajax({
+                    url: 'client-nilaitambahan.php', // PHP file untuk menangani request
+                    method: 'POST',
+                    data: { action: 'getHistory', nim: nim }  // Mengirimkan NIM
+                }).done((history) => {
+                    let html = '<h3>History Nilai Tambahan:</h3>';
+                    if (history && history.length > 0) {
+                        history.forEach((h) => {
+                            html += `<p>Vote Menang: ${h.voteMenang ? 'Ya' : 'Tidak'}, Nilai Akhir: ${h.finalScore}</p>`;
+                        });
+                    } else {
+                        html += '<p>Belum ada history untuk NIM ini.</p>';
+                    }
+                    $('#output').html(html);
+                }).fail((jqXHR, textStatus, errorThrown) => {
+                    $('#output').html(`<p>Error: ${textStatus}, ${errorThrown}</p>`);
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>Form History Nilai Tambahan</h1>
+    
+    <label for="nimSiswa">Masukkan NIM Siswa:</label>
+    <input type="text" id="nimSiswa" name="nimSiswa" placeholder="Masukkan NIM">
+    
+    <button id="his">Lihat History</button>
+    
+    <div id="output"></div> <!-- Tempat output history nilai tambahan -->
+
+</body>
+</html>
